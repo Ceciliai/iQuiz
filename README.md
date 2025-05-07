@@ -24,8 +24,8 @@ The goal is to scaffold the app UI using Storyboard and UIKit.
 - App uses Storyboard for layout and navigation.
 
 ## 🧪 Grading Rubric (5 pts)
-TableView appears with non-empty cells: 1 point.
-Correct number of cells: 1 point.
-Cells display correct data: 1 point.
-Cells include icons and subtext: 1 point.
-Settings alert functions correctly: 1 point.
+- TableView appears with non-empty cells: 1 point.
+- Correct number of cells: 1 point.
+- Cells display correct data: 1 point.
+- Cells include icons and subtext: 1 point.
+- Settings alert functions correctly: 1 point.
