@@ -29,22 +29,9 @@
 		C8CDBBB02DC96DA400AC83C1 /* iQuizUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iQuizUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		C8CDBBB82DC96DA400AC83C1 /* Exceptions for "iQuiz" folder in "iQuiz" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Info.plist,
-			);
-			target = C8CDBB8F2DC96DA000AC83C1 /* iQuiz */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		C8CDBB922DC96DA000AC83C1 /* iQuiz */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				C8CDBBB82DC96DA400AC83C1 /* Exceptions for "iQuiz" folder in "iQuiz" target */,
-			);
 			path = iQuiz;
 			sourceTree = "<group>";
 		};

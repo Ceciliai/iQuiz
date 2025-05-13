@@ -24,6 +24,7 @@ class QuizListViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "iQuiz"
+        self.navigationItem.backButtonTitle = "Back"
         
         print("✅ viewDidLoad called")
         NSLog("Navigation title set to: %@", self.title ?? "nil")
@@ -57,5 +58,13 @@ class QuizListViewController: UITableViewController {
                                       preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default))
         present(alert, animated: true)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "ShowQuestion",
+           let destination = segue.destination as? QuestionViewController,
+           let indexPath = tableView.indexPathForSelectedRow {
+            destination.selectedTopic = quizzes[indexPath.row].title
+        }
     }
 }
