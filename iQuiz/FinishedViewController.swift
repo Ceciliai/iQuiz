@@ -8,6 +8,7 @@
 import UIKit
 
 class FinishedViewController: UIViewController {
+    
     var totalCorrect: Int = 0
     var totalQuestions: Int = 0
 
@@ -16,12 +17,10 @@ class FinishedViewController: UIViewController {
     @IBOutlet weak var nextButton: UIButton!
     @IBOutlet weak var gestureHintLabel: UILabel!
 
-
-
     override func viewDidLoad() {
         super.viewDidLoad()
-        enableRightSwipeToQuit()
         
+        // 设置成绩和信息
         scoreLabel.text = "You got \(totalCorrect) out of \(totalQuestions) correct."
 
         if totalCorrect == totalQuestions {
@@ -31,35 +30,27 @@ class FinishedViewController: UIViewController {
         } else {
             messageLabel.text = "💪 Keep practicing!"
         }
-        
-        gestureHintLabel.text = "⬅️ Swipe right to return to topic list"
-        gestureHintLabel.textColor = .white 
+
+        // 👈 添加左滑返回手势
+        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeLeftToHome))
+        swipeLeft.direction = .left
+        view.addGestureRecognizer(swipeLeft)
+
+        // 👀 提示文字
+        gestureHintLabel.text = "⬅️ Swipe left to return to topic list"
+        gestureHintLabel.textColor = .gray
         gestureHintLabel.font = UIFont.italicSystemFont(ofSize: 14)
         gestureHintLabel.numberOfLines = 2
-
     }
-    
+
+    // 👈 处理左滑退出
+    @objc func handleSwipeLeftToHome() {
+        print("⬅️ Swipe left on FinishedViewController — returning to home")
+        navigationController?.popToRootViewController(animated: true)
+    }
+
+    // 点击 "Next" 按钮也回主页面
     @IBAction func nextTapped(_ sender: UIButton) {
         navigationController?.popToRootViewController(animated: true)
     }
-    
-    func enableRightSwipeToQuit() {
-        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeRightToQuit))
-        swipeRight.direction = .right
-        view.addGestureRecognizer(swipeRight)
-    }
-    
-    @objc func handleSwipeRightToQuit() {
-        let alert = UIAlertController(title: "Quit Quiz?",
-                                      message: "This will discard your progress and return to the main screen.",
-                                      preferredStyle: .alert)
-        
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        alert.addAction(UIAlertAction(title: "Quit", style: .destructive) { _ in
-            self.navigationController?.popToRootViewController(animated: true)
-        })
-
-        present(alert, animated: true)
-    }
-    
 }

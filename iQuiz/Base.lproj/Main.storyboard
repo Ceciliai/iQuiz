@@ -4,6 +4,7 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -167,11 +168,8 @@
                                     <action selector="submitTapped:" destination="ezV-7H-MGJ" eventType="touchUpInside" id="cgA-jP-MtM"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="👉 Swipe left to submit ⬅️ Swipe right to quit" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="17E-F8-Fyf">
-                                <rect key="frame" x="102" y="578" width="186" height="98"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="98" id="gYW-2E-4um"/>
-                                </constraints>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="👉 Swipe right to submit ⬅️ Swipe left to quit" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="17E-F8-Fyf">
+                                <rect key="frame" x="95" y="601" width="200" height="98"/>
                                 <fontDescription key="fontDescription" type="italicSystem" pointSize="17"/>
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -184,13 +182,15 @@
                             <constraint firstItem="17E-F8-Fyf" firstAttribute="centerX" secondItem="yEm-0e-lw8" secondAttribute="centerX" id="2se-fA-l7Y"/>
                             <constraint firstItem="BRl-vY-cnt" firstAttribute="leading" secondItem="vV8-sG-4Ny" secondAttribute="leading" constant="16" id="AhQ-DL-aqH"/>
                             <constraint firstItem="reV-sv-Sch" firstAttribute="top" secondItem="vV8-sG-4Ny" secondAttribute="top" constant="43" id="BCb-Uq-5Bp"/>
+                            <constraint firstItem="17E-F8-Fyf" firstAttribute="top" secondItem="BRl-vY-cnt" secondAttribute="bottom" constant="88.670000000000002" id="JjZ-VY-jmM"/>
                             <constraint firstItem="yEm-0e-lw8" firstAttribute="leading" secondItem="vV8-sG-4Ny" secondAttribute="leading" constant="156" id="LjK-XH-uzq"/>
-                            <constraint firstItem="yEm-0e-lw8" firstAttribute="top" secondItem="17E-F8-Fyf" secondAttribute="bottom" constant="53.666666666666515" id="NHb-Mz-7Xo"/>
                             <constraint firstItem="BRl-vY-cnt" firstAttribute="top" secondItem="reV-sv-Sch" secondAttribute="bottom" constant="20" id="Y8Q-3D-GNm"/>
-                            <constraint firstItem="17E-F8-Fyf" firstAttribute="leading" secondItem="vV8-sG-4Ny" secondAttribute="leading" constant="102" id="cUe-nS-mbM"/>
                             <constraint firstItem="reV-sv-Sch" firstAttribute="centerX" secondItem="vV8-sG-4Ny" secondAttribute="centerX" id="eLh-oT-tDN"/>
+                            <constraint firstItem="vV8-sG-4Ny" firstAttribute="trailing" secondItem="17E-F8-Fyf" secondAttribute="trailing" constant="95" id="jbj-SW-lKT"/>
                             <constraint firstItem="vV8-sG-4Ny" firstAttribute="bottom" secondItem="yEm-0e-lw8" secondAttribute="bottom" constant="14" id="kAH-aR-Iyc"/>
                             <constraint firstItem="vV8-sG-4Ny" firstAttribute="trailing" secondItem="BRl-vY-cnt" secondAttribute="trailing" constant="16" id="pMh-LA-zpk"/>
+                            <constraint firstItem="17E-F8-Fyf" firstAttribute="leading" secondItem="vV8-sG-4Ny" secondAttribute="leading" constant="95" id="r03-Gn-nZN"/>
+                            <constraint firstItem="yEm-0e-lw8" firstAttribute="top" secondItem="17E-F8-Fyf" secondAttribute="bottom" constant="30.670000000000002" id="wnN-N4-y2M"/>
                             <constraint firstItem="reV-sv-Sch" firstAttribute="leading" secondItem="vV8-sG-4Ny" secondAttribute="leading" constant="59" id="ykr-BT-R3z"/>
                         </constraints>
                     </view>
@@ -249,22 +249,22 @@
                                     <action selector="submitTapped:" destination="ezV-7H-MGJ" eventType="touchUpInside" id="Hra-7e-5Io"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="👉 Swipe left to submit ⬅️ Swipe right to quit" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7yh-kN-BUX">
-                                <rect key="frame" x="102" y="589" width="186" height="98"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="98" id="RRo-gS-QyZ"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="italicSystem" pointSize="17"/>
-                                <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="resultLabel" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="seG-Uh-lNp">
-                                <rect key="frame" x="102" y="422" width="186" height="92"/>
+                                <rect key="frame" x="135" y="422" width="120" height="92"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="92" id="58r-AC-t5A"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="23"/>
                                 <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="👉 Swipe right to submit ⬅️ Swipe left to quit" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7yh-kN-BUX">
+                                <rect key="frame" x="94" y="587" width="202" height="98"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="98" id="RRo-gS-QyZ"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="italicSystem" pointSize="17"/>
+                                <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -276,14 +276,13 @@
                             <constraint firstItem="GeL-n3-HAh" firstAttribute="leading" secondItem="UbZ-PB-5l9" secondAttribute="leading" constant="156" id="HD1-ir-nbN"/>
                             <constraint firstItem="GeL-n3-HAh" firstAttribute="centerX" secondItem="Eu6-fO-ZfD" secondAttribute="centerX" id="Nce-6z-NWe"/>
                             <constraint firstItem="1bw-ev-361" firstAttribute="leading" secondItem="UbZ-PB-5l9" secondAttribute="leading" constant="45" id="WyB-h2-Gqb"/>
-                            <constraint firstItem="seG-Uh-lNp" firstAttribute="leading" secondItem="7yh-kN-BUX" secondAttribute="leading" id="at2-T3-OEK"/>
+                            <constraint firstItem="7yh-kN-BUX" firstAttribute="leading" secondItem="UbZ-PB-5l9" secondAttribute="leading" constant="94" id="dqW-XH-8Za"/>
                             <constraint firstItem="seG-Uh-lNp" firstAttribute="centerX" secondItem="UbZ-PB-5l9" secondAttribute="centerX" id="egj-49-aVK"/>
                             <constraint firstItem="1bw-ev-361" firstAttribute="top" secondItem="UbZ-PB-5l9" secondAttribute="top" constant="70" id="evZ-dh-Mua"/>
                             <constraint firstItem="923-xh-lz8" firstAttribute="top" secondItem="1bw-ev-361" secondAttribute="bottom" constant="60" id="fEM-nd-b4i"/>
                             <constraint firstItem="923-xh-lz8" firstAttribute="centerX" secondItem="UbZ-PB-5l9" secondAttribute="centerX" id="gnA-U4-ecc"/>
-                            <constraint firstItem="GeL-n3-HAh" firstAttribute="top" secondItem="7yh-kN-BUX" secondAttribute="bottom" constant="42.666666666666515" id="lfH-O5-N9C"/>
-                            <constraint firstItem="7yh-kN-BUX" firstAttribute="leading" secondItem="UbZ-PB-5l9" secondAttribute="leading" constant="102" id="luq-B8-7Ts"/>
                             <constraint firstItem="7yh-kN-BUX" firstAttribute="centerX" secondItem="GeL-n3-HAh" secondAttribute="centerX" id="nFC-2E-1Y7"/>
+                            <constraint firstItem="GeL-n3-HAh" firstAttribute="top" secondItem="7yh-kN-BUX" secondAttribute="bottom" constant="44.666666666666515" id="osW-8w-FeG"/>
                             <constraint firstItem="seG-Uh-lNp" firstAttribute="top" secondItem="923-xh-lz8" secondAttribute="bottom" constant="41" id="qGP-6J-PNf"/>
                             <constraint firstAttribute="bottom" secondItem="seG-Uh-lNp" secondAttribute="bottom" constant="330" id="x2w-wB-1xC"/>
                         </constraints>
@@ -341,7 +340,7 @@
                                     <action selector="nextTapped:" destination="1fZ-3v-Rwy" eventType="touchUpInside" id="auE-dC-qIc"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="⬅️ Swipe right to quit" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VPf-ZM-LBt">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="⬅️ Swipe left to quit" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VPf-ZM-LBt">
                                 <rect key="frame" x="103" y="582" width="186" height="98"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="98" id="SHA-hj-zwZ"/>
