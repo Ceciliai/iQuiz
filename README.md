@@ -30,7 +30,9 @@ The goal is to scaffold the app UI using Storyboard and UIKit.
 - Cells include icons and subtext: 1 point.
 - Settings alert functions correctly: 1 point.
 
-## iQuiz – Part 2: App Functionality (INFO 448)
+----------------------------------------
+
+# iQuiz – Part 2: App Functionality
 
 This version includes all required features, scene transitions, and navigation logic for the iQuiz app.
 
@@ -77,14 +79,6 @@ In most apps, **swipe left = go forward**, **swipe right = go back**. I wanted t
 - Next → next Question or Finished screen
 - Finished → back to topic list
 - All scenes support swipe to navigate or quit
-
----
-
-### 🛠 Built With
-
-- Swift
-- UIKit + Storyboard
-- Xcode 15+
 
 ---
 
