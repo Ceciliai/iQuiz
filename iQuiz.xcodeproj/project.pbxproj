@@ -29,9 +29,22 @@
 		C8CDBBB02DC96DA400AC83C1 /* iQuizUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iQuizUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		C86DB4592DD2F1C000ECAD34 /* Exceptions for "iQuiz" folder in "iQuiz" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = C8CDBB8F2DC96DA000AC83C1 /* iQuiz */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		C8CDBB922DC96DA000AC83C1 /* iQuiz */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				C86DB4592DD2F1C000ECAD34 /* Exceptions for "iQuiz" folder in "iQuiz" target */,
+			);
 			path = iQuiz;
 			sourceTree = "<group>";
 		};
@@ -279,6 +292,7 @@
 				DEVELOPMENT_TEAM = 2DDH5T872G;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = iQuiz/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = iQuiz;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -308,6 +322,7 @@
 				DEVELOPMENT_TEAM = 2DDH5T872G;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = iQuiz/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = iQuiz;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
