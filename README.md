@@ -1,31 +1,56 @@
-# iQuiz – Part 1: App Scaffolding
+# 📱 iQuiz – Part 3: Networking
 
-## 📝 Assignment Summary
-This is Part 1 of a multi-part iOS app project for INFO 449.  
-The goal is to scaffold the app UI using Storyboard and UIKit.
+This project implements the networking features required for **INFO 449 – iQuiz Part 3**.
 
-## ✅ Requirements for Part 1
+## ✅ Core Features (5 pts)
 
-- A TableView displays **3 quiz topics**:
-  - Mathematics
-  - Marvel Super Heroes
-  - Science
-- Each cell must include:
-  - An **icon image**
-  - A **title** (up to 30 characters)
-  - A **short description** sentence
-- A **navigation bar** at the top with a **Settings** button.
-- Tapping **Settings** shows a UIAlertController with:
-  - Message: "Settings go here"
-  - One OK button
+- **🌐 Download JSON from URL (2 pts)**  
+  Loads quiz data from the default URL:  
+  [`http://tednewardsandbox.site44.com/questions.json`](http://tednewardsandbox.site44.com/questions.json)  
+  Users can also input their own JSON URL in the **Settings** panel.
 
-## 📌 Notes
-- No networking yet — quizzes are stored in a hard-coded local array.
-- App uses Storyboard for layout and navigation.
+- **🛠 Settings with "Check Now" (1 pt)**  
+  Tapping the gear icon allows users to enter a custom JSON URL and instantly reload the quiz list with the "Check Now" button.
 
-## 🧪 Grading Rubric (5 pts)
-- TableView appears with non-empty cells: 1 point.
-- Correct number of cells: 1 point.
-- Cells display correct data: 1 point.
-- Cells include icons and subtext: 1 point.
-- Settings alert functions correctly: 1 point.
+- **📶 Network Error Alerts (1 pt)**  
+  Displays clear alerts for:
+  - Empty URL
+  - Invalid URL format
+  - No internet connection
+  - Valid URL but failed to fetch topics
+
+- **💾 Persistent Settings (1 pt)**  
+  The entered JSON URL and refresh interval are saved in `UserDefaults` and automatically reloaded on app launch.
+
+## 🌟 Extra Credit (2 pts)
+
+- **🔄 Pull to Refresh (1 pt)**  
+  Swipe down on the quiz list to refresh the data manually.
+
+- **⏱ Timed Auto-Refresh (1 pt)**  
+  In Settings, users can specify a refresh interval (in seconds).  
+  The app automatically fetches the latest quiz data at the specified interval in the background.
+
+## 💡 How to Use
+
+1. Launch the app — it fetches the quiz topics from either:
+   - Saved custom URL from Settings, or
+   - Default fallback URL.
+
+2. Tap the gear ⚙️ icon to:
+   - Enter a new JSON source
+   - Set a timed refresh interval
+   - Use "Check Now" to immediately reload
+
+3. Swipe down on the list to manually refresh the data.
+
+## 📸 Demo Screenshots
+
+| Main View | Settings | Alert |
+|-----------|----------|--------|
+| ![Main](screenshots/main.png) | ![Settings](screenshots/settings.png) | ![Alert](screenshots/alert.png) |
+
+---
+
+Created by **Haiyi Luo**  
+For INFO 449 – Spring 2025
