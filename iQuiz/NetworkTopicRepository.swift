@@ -15,25 +15,32 @@ class NetworkTopicRepository: TopicRepository {
     }
 
     /// 从网络加载题库 JSON 并解析成 Topic 对象列表
-    func fetchTopics(completion: @escaping ([Topic]) -> Void) {
+    func fetchTopics(completion: @escaping ([Topic], Error?) -> Void) {
         // 1. 验证 URL 是否有效
         guard let url = URL(string: urlString) else {
             print("❌ Invalid URL: \(urlString)")
-            completion([])
+            completion([], URLError(.badURL))
             return
         }
 
         // 2. 发起网络请求
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
-            // 3. 检查是否成功返回数据
-            guard let data = data, error == nil else {
-                print("❌ Network request failed: \(error?.localizedDescription ?? "Unknown error")")
-                completion([])
+            // 3. 网络请求失败（如断网）
+            if let error = error {
+                print("❌ Network request failed: \(error.localizedDescription)")
+                completion([], error)
+                return
+            }
+
+            // 4. 数据为空
+            guard let data = data else {
+                print("❌ No data received")
+                completion([], URLError(.badServerResponse))
                 return
             }
 
             do {
-                // 🔍 顶层 JSON 是数组（而不是字典）
+                // 5. JSON 格式正确（是数组）
                 if let topicsArray = try JSONSerialization.jsonObject(with: data) as? [[String: Any]] {
                     NSLog("📦 JSON parsed — total \(topicsArray.count) topics")
 
@@ -48,39 +55,39 @@ class NetworkTopicRepository: TopicRepository {
                         let questions = questionsArray.compactMap { questionDict -> Question? in
                             guard let text = questionDict["text"] as? String,
                                   let answerStr = questionDict["answer"] as? String,
-                                  let answer = Int(answerStr),
+                                  let rawAnswer = Int(answerStr),
+                                  rawAnswer > 0,
                                   let answers = questionDict["answers"] as? [String] else {
                                 print("⚠️ Skipping invalid question entry")
                                 return nil
                             }
 
-                            return Question(text: text, options: answers, correctIndex: answer)
+                            let correctIndex = rawAnswer - 1
+                            return Question(text: text, options: answers, correctIndex: correctIndex)
                         }
 
                         return Topic(title: title, desc: desc, questions: questions)
                     }
 
                     DispatchQueue.main.async {
-                        completion(topics)
+                        completion(topics, nil)
                     }
 
                 } else {
                     print("❌ JSON root is not an array")
                     DispatchQueue.main.async {
-                        completion([])
+                        completion([], NSError(domain: "InvalidJSON", code: 1))
                     }
                 }
 
             } catch {
                 print("❌ Failed to parse JSON: \(error)")
                 DispatchQueue.main.async {
-                    completion([])
+                    completion([], error)
                 }
             }
-
         }
 
         task.resume()
     }
 }
-

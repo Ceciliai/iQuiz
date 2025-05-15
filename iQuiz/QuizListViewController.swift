@@ -20,7 +20,8 @@ class QuizListViewController: UITableViewController {
 
         NSLog("✅ viewDidLoad called — setting up quiz list")
 
-        // 从 UserDefaults 读取用户保存的 URL，如果没有则使用默认地址
+        // Read the URL saved by the user from UserDefaults.
+        //If there is none, use the default address.
         let savedURL = UserDefaults.standard.string(forKey: "quizDataURL") ??
             "http://tednewardsandbox.site44.com/questions.json"
         NSLog("🌐 Loading topics from URL: \(savedURL)")
@@ -31,14 +32,53 @@ class QuizListViewController: UITableViewController {
     /// 根据提供的 URL 从远程服务器加载题库 JSON
     func loadTopics(from url: String) {
         NSLog("📡 Starting network fetch from \(url)")
+
+        // Case 1: Empty URL
+        if url.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            showAlert(title: "Load Failed", message: "URL is empty.")
+            return
+        }
+
+        // Case 2: Invalid URL format
+        guard URL(string: url) != nil else {
+            showAlert(title: "Load Failed", message: "URL is invalid.")
+            return
+        }
+
+
         let repo = NetworkTopicRepository(urlString: url)
 
-        repo.fetchTopics { downloadedTopics in
-            self.topics = downloadedTopics
-            NSLog("✅ Finished downloading \(downloadedTopics.count) topics")
-            self.tableView.reloadData()
+        repo.fetchTopics { downloadedTopics, networkError in
+            DispatchQueue.main.async {
+                // Case 3: No internet connection
+                if let error = networkError as? URLError, error.code == .notConnectedToInternet {
+                    self.showAlert(title: "Load Failed", message: "Network connection appears to be offline.")
+                    return
+                }
+
+                // Case 4: Other failures
+                if downloadedTopics.isEmpty {
+                    self.showAlert(title: "Load Failed", message: "Failed to load quiz topics. Please check your internet connection or JSON URL")
+                    return
+                }
+
+                // ✅ Success
+                self.topics = downloadedTopics
+                NSLog("✅ Loaded \(downloadedTopics.count) topics")
+                self.tableView.reloadData()
+            }
         }
     }
+    
+    func showAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title,
+                                      message: message,
+                                      preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        self.present(alert, animated: true)
+    }
+
+
 
     /// 设置按钮点击事件：弹出 Alert，输入 URL，支持 “Check Now” 刷新
     @IBAction func settingsTapped(_ sender: UIBarButtonItem) {
