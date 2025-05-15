@@ -19,15 +19,28 @@ class QuizListViewController: UITableViewController {
         self.navigationItem.backButtonTitle = "Back"
 
         NSLog("✅ viewDidLoad called — setting up quiz list")
+        
+        // 设置下拉刷新控件（extra credit 功能）
+        refreshControl = UIRefreshControl()
+        refreshControl?.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
+        tableView.refreshControl = refreshControl
 
         // Read the URL saved by the user from UserDefaults.
         //If there is none, use the default address.
         let savedURL = UserDefaults.standard.string(forKey: "quizDataURL") ??
-            "http://tednewardsandbox.site44.com/questions.json"
+            "https://tednewardsandbox.site44.com/questions.json"
         NSLog("🌐 Loading topics from URL: \(savedURL)")
-
+        
         loadTopics(from: savedURL)
     }
+    
+    @objc func handleRefresh() {
+        print("🔄 Pull to refresh triggered")
+        let savedURL = UserDefaults.standard.string(forKey: "quizDataURL") ??
+            "http://tednewardsandbox.site44.com/questions.json"
+        loadTopics(from: savedURL)
+    }
+
 
     /// 根据提供的 URL 从远程服务器加载题库 JSON
     func loadTopics(from url: String) {
@@ -66,6 +79,7 @@ class QuizListViewController: UITableViewController {
                 self.topics = downloadedTopics
                 NSLog("✅ Loaded \(downloadedTopics.count) topics")
                 self.tableView.reloadData()
+                self.refreshControl?.endRefreshing() // ✅ 这行确保动画结束
             }
         }
     }
@@ -84,33 +98,41 @@ class QuizListViewController: UITableViewController {
     @IBAction func settingsTapped(_ sender: UIBarButtonItem) {
         print("⚙️ Settings button tapped")
 
-        let alert = UIAlertController(title: "Settings",
-                                      message: "Enter custom JSON URL",
-                                      preferredStyle: .alert)
+       let alert = UIAlertController(title: "Settings",
+                                     message: "Enter custom JSON URL",
+                                     preferredStyle: .alert)
 
-        alert.addTextField { textField in
-            textField.placeholder = "Enter JSON URL here"
-            textField.text = UserDefaults.standard.string(forKey: "quizDataURL")
-        }
+       alert.addTextField { textField in
+           textField.placeholder = "Enter JSON URL here"
+           textField.text = UserDefaults.standard.string(forKey: "quizDataURL")
+       }
 
-        // 点击 Check Now：保存并重新加载
-        alert.addAction(UIAlertAction(title: "Check Now", style: .default) { _ in
-            guard let urlText = alert.textFields?.first?.text else { return }
-            UserDefaults.standard.set(urlText, forKey: "quizDataURL")
-            print("🔄 Check Now pressed — reloading from: \(urlText)")
-            self.loadTopics(from: urlText)
-        })
+       // 点击 Check Now：保存并重新加载
+       alert.addAction(UIAlertAction(title: "Check Now", style: .default) { _ in
+           guard let urlText = alert.textFields?.first?.text,
+                 !urlText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+               self.showAlert(title: "Load Failed", message: "URL is empty.")
+               return
+           }
 
-        // 只保存 URL，不立即加载
-        alert.addAction(UIAlertAction(title: "Save & Close", style: .default) { _ in
-            guard let urlText = alert.textFields?.first?.text else { return }
-            UserDefaults.standard.set(urlText, forKey: "quizDataURL")
-            print("💾 URL saved to UserDefaults: \(urlText)")
-        })
+           UserDefaults.standard.set(urlText, forKey: "quizDataURL")
+           print("🔄 Check Now pressed — reloading from: \(urlText)")
+           self.loadTopics(from: urlText)
+       })
 
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+       // 只保存 URL，不立即加载
+       alert.addAction(UIAlertAction(title: "Save & Close", style: .default) { _ in
+           guard let urlText = alert.textFields?.first?.text,
+                 !urlText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+               return
+           }
+           UserDefaults.standard.set(urlText, forKey: "quizDataURL")
+           print("💾 URL saved to UserDefaults: \(urlText)")
+       })
 
-        present(alert, animated: true)
+       alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+
+       present(alert, animated: true)
     }
 
     // MARK: - TableView 数据源方法
