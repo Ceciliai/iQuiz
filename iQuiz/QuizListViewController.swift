@@ -12,8 +12,10 @@ class QuizListViewController: UITableViewController {
 
     // 网络加载后的题库数组（替代原本写死的 quizzes）
     var topics: [Topic] = []
+    var refreshTimer: Timer?
 
     override func viewDidLoad() {
+
         super.viewDidLoad()
         self.title = "iQuiz"
         self.navigationItem.backButtonTitle = "Back"
@@ -32,6 +34,11 @@ class QuizListViewController: UITableViewController {
         NSLog("🌐 Loading topics from URL: \(savedURL)")
         
         loadTopics(from: savedURL)
+        
+        let savedInterval = UserDefaults.standard.double(forKey: "refreshInterval")
+        if savedInterval > 0 {
+            startTimer(interval: savedInterval)
+        }
     }
     
     @objc func handleRefresh() {
@@ -102,37 +109,85 @@ class QuizListViewController: UITableViewController {
                                      message: "Enter custom JSON URL",
                                      preferredStyle: .alert)
 
-       alert.addTextField { textField in
-           textField.placeholder = "Enter JSON URL here"
-           textField.text = UserDefaults.standard.string(forKey: "quizDataURL")
-       }
+        // 第一个输入框：URL
+        alert.addTextField { textField in
+            textField.placeholder = "Enter JSON URL here"
+            textField.text = UserDefaults.standard.string(forKey: "quizDataURL")
+        }
+
+        // 第二个输入框：刷新时间
+        alert.addTextField { textField in
+            textField.placeholder = "Refresh interval (seconds)"
+            textField.keyboardType = .numberPad
+            let savedInterval = UserDefaults.standard.double(forKey: "refreshInterval")
+            textField.text = savedInterval > 0 ? "\(Int(savedInterval))" : ""
+        }
+
 
        // 点击 Check Now：保存并重新加载
-       alert.addAction(UIAlertAction(title: "Check Now", style: .default) { _ in
-           guard let urlText = alert.textFields?.first?.text,
-                 !urlText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
-               self.showAlert(title: "Load Failed", message: "URL is empty.")
-               return
-           }
+        alert.addAction(UIAlertAction(title: "Check Now", style: .default) { _ in
+            guard let urlText = alert.textFields?[0].text,
+                  !urlText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+                self.showAlert(title: "Load Failed", message: "URL is empty.")
+                return
+            }
 
-           UserDefaults.standard.set(urlText, forKey: "quizDataURL")
-           print("🔄 Check Now pressed — reloading from: \(urlText)")
-           self.loadTopics(from: urlText)
-       })
+            // ✅ 保存 URL
+            UserDefaults.standard.set(urlText, forKey: "quizDataURL")
+
+            // ✅ 提取刷新间隔并保存
+            if let intervalText = alert.textFields?[1].text,
+               let interval = Double(intervalText), interval > 0 {
+                UserDefaults.standard.set(interval, forKey: "refreshInterval")
+                self.startTimer(interval: interval) // ⏱ 启动定时器
+            }
+
+            print("🔄 Check Now pressed — reloading from: \(urlText)")
+            self.loadTopics(from: urlText)
+        })
+
 
        // 只保存 URL，不立即加载
-       alert.addAction(UIAlertAction(title: "Save & Close", style: .default) { _ in
-           guard let urlText = alert.textFields?.first?.text,
-                 !urlText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
-               return
-           }
-           UserDefaults.standard.set(urlText, forKey: "quizDataURL")
-           print("💾 URL saved to UserDefaults: \(urlText)")
-       })
+        alert.addAction(UIAlertAction(title: "Save & Close", style: .default) { _ in
+            guard let urlText = alert.textFields?[0].text,
+                  !urlText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+                return
+            }
+
+            // ✅ 保存 URL
+            UserDefaults.standard.set(urlText, forKey: "quizDataURL")
+
+            // ✅ 提取刷新间隔并保存
+            if let intervalText = alert.textFields?[1].text,
+               let interval = Double(intervalText), interval > 0 {
+                UserDefaults.standard.set(interval, forKey: "refreshInterval")
+                self.startTimer(interval: interval) // ⏱ 启动定时器
+            }
+
+            print("💾 URL and interval saved: \(urlText)")
+        })
 
        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
 
        present(alert, animated: true)
+    }
+    
+    func startTimer(interval: Double) {
+        // 🔁 停止旧的定时器（如果存在）
+        refreshTimer?.invalidate()
+
+        print("⏱ Starting new refresh timer: every \(interval) seconds")
+
+        // 🆕 启动新的定时器
+        refreshTimer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { [weak self] _ in
+            guard let self = self else { return }
+
+            let url = UserDefaults.standard.string(forKey: "quizDataURL") ??
+                "https://tednewardsandbox.site44.com/questions.json"
+
+            print("🔁 Timed refresh triggered for URL: \(url)")
+            self.loadTopics(from: url)
+        }
     }
 
     // MARK: - TableView 数据源方法
