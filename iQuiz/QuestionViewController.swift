@@ -7,12 +7,6 @@
 
 import UIKit
 
-struct Question {
-    let text: String
-    let options: [String]
-    let correctIndex: Int
-}
-
 class QuestionViewController: UIViewController {
 
     @IBOutlet weak var questionLabel: UILabel!

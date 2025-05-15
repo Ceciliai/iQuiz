@@ -74,6 +74,9 @@
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Question goes here" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="reV-sv-Sch">
                                 <rect key="frame" x="59" y="181" width="272" height="24"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="24" id="lfQ-No-VAt"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -170,6 +173,9 @@
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="👉 Swipe right to submit ⬅️ Swipe left to quit" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="17E-F8-Fyf">
                                 <rect key="frame" x="95" y="601" width="200" height="98"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="98" id="m9s-fU-SIe"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="italicSystem" pointSize="17"/>
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -185,6 +191,7 @@
                             <constraint firstItem="17E-F8-Fyf" firstAttribute="top" secondItem="BRl-vY-cnt" secondAttribute="bottom" constant="88.670000000000002" id="JjZ-VY-jmM"/>
                             <constraint firstItem="yEm-0e-lw8" firstAttribute="leading" secondItem="vV8-sG-4Ny" secondAttribute="leading" constant="156" id="LjK-XH-uzq"/>
                             <constraint firstItem="BRl-vY-cnt" firstAttribute="top" secondItem="reV-sv-Sch" secondAttribute="bottom" constant="20" id="Y8Q-3D-GNm"/>
+                            <constraint firstAttribute="bottom" secondItem="17E-F8-Fyf" secondAttribute="bottom" constant="145" id="c2G-aN-7wR"/>
                             <constraint firstItem="reV-sv-Sch" firstAttribute="centerX" secondItem="vV8-sG-4Ny" secondAttribute="centerX" id="eLh-oT-tDN"/>
                             <constraint firstItem="vV8-sG-4Ny" firstAttribute="trailing" secondItem="17E-F8-Fyf" secondAttribute="trailing" constant="95" id="jbj-SW-lKT"/>
                             <constraint firstItem="vV8-sG-4Ny" firstAttribute="bottom" secondItem="yEm-0e-lw8" secondAttribute="bottom" constant="14" id="kAH-aR-Iyc"/>
