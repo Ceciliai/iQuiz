@@ -44,13 +44,7 @@ This project implements the networking features required for **INFO 449 – iQui
 
 3. Swipe down on the list to manually refresh the data.
 
-## 📸 Demo Screenshots
-
-| Main View | Settings | Alert |
-|-----------|----------|--------|
-| ![Main](screenshots/main.png) | ![Settings](screenshots/settings.png) | ![Alert](screenshots/alert.png) |
-
----
+-------
 
 Created by **Haiyi Luo**  
 For INFO 449 – Spring 2025
