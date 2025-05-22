@@ -1,7 +1,7 @@
 # iQuiz: Offline-Capable iOS Quiz App
 
 **iQuiz** is a customizable, offline-compatible iOS quiz app built with Swift and UIKit.  
-Users can configure the quiz source URL and refresh interval through the iOS Settings app, while the app automatically caches downloaded quizzes for offline use. iQuiz is designed to demonstrate resilient mobile design, offline-first thinking, and dynamic configuration with minimal user effort.
+Users can configure the quiz source URL and refresh interval through the iOS Settings app, while the app automatically caches downloaded quizzes for offline use. iQuiz is designed to demonstrate resilient mobile design, offline-first thinking, and dynamic configuration with minimal user effort.  
 
 ---
 
