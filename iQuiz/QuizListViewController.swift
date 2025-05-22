@@ -70,23 +70,30 @@ class QuizListViewController: UITableViewController {
 
         repo.fetchTopics { downloadedTopics, networkError in
             DispatchQueue.main.async {
-                // Case 3: No internet connection
-                if let error = networkError as? URLError, error.code == .notConnectedToInternet {
-                    self.showAlert(title: "Load Failed", message: "Network connection appears to be offline.")
+                if let error = networkError, downloadedTopics.isEmpty {
+                    print("🌐 Network fetch failed, attempting to load from local storage")
+
+                    let localRepo = LocalTopicRepository()
+                    localRepo.fetchTopics { localTopics, localError in
+                        if !localTopics.isEmpty {
+                            self.topics = localTopics
+                            print("📂 Loaded \(localTopics.count) topics from local file")
+                            self.tableView.reloadData()
+                        } else {
+                            self.showAlert(title: "Load Failed",
+                                           message: "Unable to load quizzes from both internet and local storage.")
+                        }
+                        self.refreshControl?.endRefreshing()
+                    }
+
                     return
                 }
 
-                // Case 4: Other failures
-                if downloadedTopics.isEmpty {
-                    self.showAlert(title: "Load Failed", message: "Failed to load quiz topics. Please check your internet connection or JSON URL")
-                    return
-                }
-
-                // ✅ Success
+                // ✅ 网络成功
                 self.topics = downloadedTopics
-                NSLog("✅ Loaded \(downloadedTopics.count) topics")
+                print("✅ Loaded \(downloadedTopics.count) topics from network")
                 self.tableView.reloadData()
-                self.refreshControl?.endRefreshing() // ✅ 这行确保动画结束
+                self.refreshControl?.endRefreshing()
             }
         }
     }
@@ -103,73 +110,14 @@ class QuizListViewController: UITableViewController {
 
     /// 设置按钮点击事件：弹出 Alert，输入 URL，支持 “Check Now” 刷新
     @IBAction func settingsTapped(_ sender: UIBarButtonItem) {
-        print("⚙️ Settings button tapped")
+        print("⚙️ Settings button tapped — attempting to open Settings app")
 
-       let alert = UIAlertController(title: "Settings",
-                                     message: "Enter custom JSON URL",
-                                     preferredStyle: .alert)
-
-        // 第一个输入框：URL
-        alert.addTextField { textField in
-            textField.placeholder = "Enter JSON URL here"
-            textField.text = UserDefaults.standard.string(forKey: "quizDataURL")
+        if let settingsURL = URL(string: UIApplication.openSettingsURLString),
+           UIApplication.shared.canOpenURL(settingsURL) {
+            UIApplication.shared.open(settingsURL, options: [:], completionHandler: nil)
+        } else {
+            showAlert(title: "Error", message: "Unable to open Settings.")
         }
-
-        // 第二个输入框：刷新时间
-        alert.addTextField { textField in
-            textField.placeholder = "Refresh interval (seconds)"
-            textField.keyboardType = .numberPad
-            let savedInterval = UserDefaults.standard.double(forKey: "refreshInterval")
-            textField.text = savedInterval > 0 ? "\(Int(savedInterval))" : ""
-        }
-
-
-       // 点击 Check Now：保存并重新加载
-        alert.addAction(UIAlertAction(title: "Check Now", style: .default) { _ in
-            guard let urlText = alert.textFields?[0].text,
-                  !urlText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
-                self.showAlert(title: "Load Failed", message: "URL is empty.")
-                return
-            }
-
-            // ✅ 保存 URL
-            UserDefaults.standard.set(urlText, forKey: "quizDataURL")
-
-            // ✅ 提取刷新间隔并保存
-            if let intervalText = alert.textFields?[1].text,
-               let interval = Double(intervalText), interval > 0 {
-                UserDefaults.standard.set(interval, forKey: "refreshInterval")
-                self.startTimer(interval: interval) // ⏱ 启动定时器
-            }
-
-            print("🔄 Check Now pressed — reloading from: \(urlText)")
-            self.loadTopics(from: urlText)
-        })
-
-
-       // 只保存 URL，不立即加载
-        alert.addAction(UIAlertAction(title: "Save & Close", style: .default) { _ in
-            guard let urlText = alert.textFields?[0].text,
-                  !urlText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
-                return
-            }
-
-            // ✅ 保存 URL
-            UserDefaults.standard.set(urlText, forKey: "quizDataURL")
-
-            // ✅ 提取刷新间隔并保存
-            if let intervalText = alert.textFields?[1].text,
-               let interval = Double(intervalText), interval > 0 {
-                UserDefaults.standard.set(interval, forKey: "refreshInterval")
-                self.startTimer(interval: interval) // ⏱ 启动定时器
-            }
-
-            print("💾 URL and interval saved: \(urlText)")
-        })
-
-       alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-
-       present(alert, animated: true)
     }
     
     func startTimer(interval: Double) {
